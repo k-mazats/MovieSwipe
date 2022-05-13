@@ -31,3 +31,17 @@ export const getMovieDetails = async (movie) => {
 		console.error(err);
 	}
 };
+export const searchMovies = async (movie) => {
+	const options = {
+		method: 'GET',
+		url: `http://www.omdbapi.com/?apikey=${
+			import.meta.env.VITE_APP_OMDB_KEY
+		}&typt=movie&s=${movie}&page=1`,
+	};
+	try {
+		let response = await axios(options);
+		return response;
+	} catch (err) {
+		console.error(err);
+	}
+};
