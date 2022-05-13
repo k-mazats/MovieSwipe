@@ -30,9 +30,7 @@ code {
 	height: calc(100vh - 50px - 8rem);
 	z-index: 999;
 }
-/* .swipe:not(:last-of-type) {
-	display: none
-} */
+
 .cardContainer {
 	width: 90vw;
 	
@@ -50,6 +48,9 @@ code {
 	background-position: center;
   width: 100%;
 	height: 100%;
+}
+.card:not(:last-of-type){
+	box-shadow: none;
 }
 
 .cardContent {

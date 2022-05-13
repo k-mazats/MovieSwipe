@@ -24,13 +24,15 @@ const SearchMovie = (props) => {
 		return array;
 	};
 	const handleSubmit = async (e) => {
-
 		e.preventDefault();
 		(async () => {
 			const res = await getMovies(`movie:${movieSearch}`, 50);
-			setLikeHistory([`movie:${movieSearch}`])
-			const shuffled = shuffle(res.data.Similar.Results);
-			setMovies([shuffled[0],shuffled[1]]);
+			console.log(res)
+			if (res.data.Similar.length > 0) {
+				setLikeHistory([`movie:${movieSearch}`]);
+				const shuffled = shuffle(res.data.Similar.Results);
+				setMovies([shuffled[0], shuffled[1]]);
+			}
 		})();
 	};
 

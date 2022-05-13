@@ -55,10 +55,10 @@ const Swiper = (props) => {
 		const res = await getMovies(queryString);
 		const tempArray = shuffle(res.data.Similar.Results);
 		const movieDatas = tempArray.find((movie) => {
-  
 			return !moviesRecommendations.some((item) => {
-        console.log(item)
-        item.Name === movie.Name});
+				console.log(item);
+				item.Name === movie.Name;
+			});
 		});
 		setMovies((moviesRecommendations) => [
 			movieDatas,
@@ -69,10 +69,11 @@ const Swiper = (props) => {
 	// set last direction and decrease current index
 	const swiped = async (direction, title, index) => {
 		setLastDirection(direction);
+    console.log(direction)
 		if (direction === 'right' || direction === 'left') {
 			setLikeHistory((likeHistory) => [...likeHistory, `movie:${title}`]);
+			updateCurrentIndex(index - 1);
 		}
-		updateCurrentIndex(index - 1);
 	};
 
 	const outOfFrame = (name, idx) => {
@@ -86,7 +87,10 @@ const Swiper = (props) => {
 
 	const swipe = async (dir) => {
 		if (canSwipe && currentIndex < fullMoviesList.length) {
-			await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+			if (dir === 'right' || dir === 'left') {
+				await childRefs[currentIndex].current.swipe(dir);
+			}
+			// Swipe the card!
 		}
 	};
 
@@ -115,6 +119,8 @@ const Swiper = (props) => {
 							key={`movie-card-${movie.imdbID}`}
 							onSwipe={(dir) => swiped(dir, movie.Title, index)}
 							onCardLeftScreen={() => outOfFrame(movie.Title, index)}
+							preventSwipe={['down','up']}
+              swipeRequirementType="position"
 						>
 							<div
 								style={{ backgroundImage: `url('${movie.Poster}')` }}
