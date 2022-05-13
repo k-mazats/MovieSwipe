@@ -30,7 +30,7 @@ const SearchMovie = (props) => {
 			const res = await getMovies(`movie:${movieSearch}`, 50);
 			setLikeHistory([`movie:${movieSearch}`])
 			const shuffled = shuffle(res.data.Similar.Results);
-			setMovies([shuffled[0]]);
+			setMovies([shuffled[0],shuffled[1]]);
 		})();
 	};
 

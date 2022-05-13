@@ -53,8 +53,15 @@ const Swiper = (props) => {
 	const updateRecommendations = async () => {
 		const queryString = likeHistory.join(',');
 		const res = await getMovies(queryString);
+		const tempArray = shuffle(res.data.Similar.Results);
+		const movieDatas = tempArray.find((movie) => {
+  
+			return !moviesRecommendations.some((item) => {
+        console.log(item)
+        item.Name === movie.Name});
+		});
 		setMovies((moviesRecommendations) => [
-			shuffle(res.data.Similar.Results)[0],
+			movieDatas,
 			...moviesRecommendations,
 		]);
 	};
@@ -63,10 +70,7 @@ const Swiper = (props) => {
 	const swiped = async (direction, title, index) => {
 		setLastDirection(direction);
 		if (direction === 'right' || direction === 'left') {
-			setLikeHistory((likeHistory) => [
-				...likeHistory,
-				`movie:${title}`,
-			]);
+			setLikeHistory((likeHistory) => [...likeHistory, `movie:${title}`]);
 		}
 		updateCurrentIndex(index - 1);
 	};
@@ -94,9 +98,11 @@ const Swiper = (props) => {
 	// 	await childRefs[newIndex].current.restoreCard();
 	// };
 	useEffect(() => {
-		if(likeHistory?.length > 1){(async () => {
-			await updateRecommendations();
-		})();}
+		if (likeHistory?.length > 1) {
+			(async () => {
+				await updateRecommendations();
+			})();
+		}
 	}, [likeHistory]);
 	return (
 		<div>
@@ -106,7 +112,7 @@ const Swiper = (props) => {
 						<TinderCard
 							ref={childRefs[index]}
 							className="swipe"
-							key={`movie-card-${index}`}
+							key={`movie-card-${movie.imdbID}`}
 							onSwipe={(dir) => swiped(dir, movie.Title, index)}
 							onCardLeftScreen={() => outOfFrame(movie.Title, index)}
 						>

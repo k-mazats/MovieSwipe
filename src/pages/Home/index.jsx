@@ -9,12 +9,18 @@ const Home = () => {
 	const [fullMoviesList, setFullMoviesList] = useState([]);
 	const [likeHistory, setLikeHistory] = useState([]);
 	useEffect(() => {
-		if (moviesRecommendations && moviesRecommendations?.length > 0) {
+		if (moviesRecommendations && moviesRecommendations?.length > 2) {
 			(async () => {
-				// console.log('ok')
+				console.log('ok')
 				const res = await getMovieDetails(moviesRecommendations[0].Name);
-				setFullMoviesList((fullMoviesList) => [...fullMoviesList, res.data]);
+				
+				setFullMoviesList([res.data,...fullMoviesList]);
 			})();
+		} else if (moviesRecommendations && moviesRecommendations?.length === 2) {
+			moviesRecommendations.forEach(async (movie) => {
+				const res = await getMovieDetails(movie.Name);
+				setFullMoviesList((fullMoviesList) => [...fullMoviesList, res.data]);
+			});
 		}
 	}, [moviesRecommendations]);
 	return (
