@@ -8,6 +8,7 @@ const Swiper = (props) => {
 		setLikeHistory,
 		setMovies,
 		moviesRecommendations,
+		reset,
 	} = props;
 	const [currentIndex, setCurrentIndex] = useState(fullMoviesList.length - 1);
 	const [lastDirection, setLastDirection] = useState();
@@ -69,10 +70,14 @@ const Swiper = (props) => {
 	// set last direction and decrease current index
 	const swiped = async (direction, title, index) => {
 		setLastDirection(direction);
-    console.log(direction)
+		console.log(direction);
 		if (direction === 'right' || direction === 'left') {
 			setLikeHistory((likeHistory) => [...likeHistory, `movie:${title}`]);
 			updateCurrentIndex(index - 1);
+		} else if (direction === 'down') {
+			reset();
+		} else if (direction === 'up') {
+			return;
 		}
 	};
 
@@ -119,8 +124,8 @@ const Swiper = (props) => {
 							key={`movie-card-${movie.imdbID}`}
 							onSwipe={(dir) => swiped(dir, movie.Title, index)}
 							onCardLeftScreen={() => outOfFrame(movie.Title, index)}
-							preventSwipe={['down','up']}
-              swipeRequirementType="position"
+							preventSwipe={['up']}
+							swipeRequirementType="position"
 						>
 							<div
 								style={{ backgroundImage: `url('${movie.Poster}')` }}
@@ -131,6 +136,54 @@ const Swiper = (props) => {
 						</TinderCard>
 					);
 				})}
+			</div>
+			<a
+				uk-toggle="target: #modal"
+				className="uk-icon-button open-modal"
+				uk-icon="file-text"
+				href=""
+			></a>
+			<div
+				className="uk-modal-full uk-background-secondary uk-width-1-1 uk-height-1-1"
+				id="modal"
+				uk-modal="true"
+			>
+				<div className="uk-modal-dialog">
+					<a
+						className="uk-modal-close-default uk-close uk-icon-button uk-position-small uk-position-top-right"
+						href=""
+						uk-close="true"
+					></a>
+					<div className="uk-width-1-1 uk-background-secondary">
+						<div className="uk-width-1-1 uk-height-small uk-cover-container">
+							<img
+								src={fullMoviesList[1]?.Poster}
+								alt=""
+								uk-cover
+								className="uk-width-1-1"
+							/>
+							<div class="uk-overlay uk-overlay-primary uk-position-bottom">
+								<h2>{fullMoviesList[1]?.Title}</h2>
+							</div>
+						</div>
+						<dl class="uk-description-list uk-padding-small uk-text-small uk-margin-remove uk-padding-small">
+							<dt className="uk-text-secondary">Plot :</dt>
+							<dd>{fullMoviesList[1]?.Plot}</dd>
+							<dt className="uk-text-secondary">Directed by :</dt>
+							<dd>{fullMoviesList[1]?.Director}</dd>
+							<dt className="uk-text-secondary">Actors :</dt>
+							<dd>{fullMoviesList[1]?.Actors}</dd>
+							<dt className="uk-text-secondary">Written by :</dt>
+							<dd>{fullMoviesList[1]?.Writer}</dd>
+							<dt className="uk-text-secondary">Genre :</dt>
+							<dd>{fullMoviesList[1]?.Genre}</dd>
+							<dt className="uk-text-secondary">Runtime :</dt>
+							<dd>{fullMoviesList[1]?.Runtime}</dd>
+							<dt className="uk-text-secondary">Rating IMDB :</dt>
+							<dd>{fullMoviesList[1]?.imdbRating}</dd>
+						</dl>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

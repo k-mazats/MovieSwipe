@@ -38,3 +38,8 @@
 button {
 	font-size: calc(10px + 2vmin);
 }
+pre{
+	white-space:pre-wrap;
+	overflow-wrap: break-word;
+	margin:0;
+}

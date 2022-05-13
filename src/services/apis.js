@@ -22,7 +22,7 @@ export const getMovieDetails = async (movie) => {
 		method: 'GET',
 		url: `http://www.omdbapi.com/?apikey=${
 			import.meta.env.VITE_APP_OMDB_KEY
-		}&typt=movie&t=${movie}`,
+		}&type=movie&t=${movie}`,
 	};
 	try {
 		let response = await axios(options);
@@ -36,7 +36,7 @@ export const searchMovies = async (movie) => {
 		method: 'GET',
 		url: `http://www.omdbapi.com/?apikey=${
 			import.meta.env.VITE_APP_OMDB_KEY
-		}&typt=movie&s=${movie}&page=1`,
+		}&type=movie&s=${movie}&page=1`,
 	};
 	try {
 		let response = await axios(options);

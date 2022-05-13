@@ -59,22 +59,27 @@ const SearchMovie = (props) => {
 		if (movieSearch.length > 2 && movieSearch.slice(-1) !== ' ') {
 			(async () => {
 				const tempArray = await searchMovies(movieSearch);
-				setInputItems(tempArray.data.Search.map((movie) => movie.Title));
+				setInputItems(
+					tempArray.data.Search.slice(0, 5).map((movie) => movie.Title)
+				);
 			})();
 		}
 	}, [movieSearch]);
 	return (
-		<form onSubmit={handleSubmit}>
-			<div>
-				<div>
-					<div {...getComboboxProps()} className="uk-inline">
+		<form onSubmit={handleSubmit} className="uk-width-1-1">
+			<div className="uk-width-1-1 uk-padding">
+				<div className="uk-width-1-1">
+					<div {...getComboboxProps()} className="uk-inline uk-width-1-1">
 						<span
 							className="uk-form-icon uk-form-icon-flip"
 							uk-icon="icon: search"
 						></span>
 						<input {...getInputProps()} className="uk-input" />
 					</div>
-					<ul {...getMenuProps()}>
+					<ul
+						{...getMenuProps()}
+						className="uk-list uk-width-1-1 uk-card uk-card"
+					>
 						{isOpen &&
 							inputItems.map((item, index) => (
 								<li
@@ -85,6 +90,7 @@ const SearchMovie = (props) => {
 									}
 									key={`${item}${index}`}
 									{...getItemProps({ item, index })}
+									className=" uk-padding-small"
 								>
 									{item}
 								</li>
