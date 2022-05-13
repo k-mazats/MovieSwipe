@@ -60,15 +60,13 @@ const Swiper = (props) => {
 	};
 
 	// set last direction and decrease current index
-	const swiped = async (direction, nameToDelete, index) => {
+	const swiped = async (direction, title, index) => {
 		setLastDirection(direction);
-		if (direction === 'right') {
+		if (direction === 'right' || direction === 'left') {
 			setLikeHistory((likeHistory) => [
 				...likeHistory,
-				`movie:${nameToDelete}`,
+				`movie:${title}`,
 			]);
-		} else {
-			await updateRecommendations();
 		}
 		updateCurrentIndex(index - 1);
 	};
@@ -96,9 +94,9 @@ const Swiper = (props) => {
 	// 	await childRefs[newIndex].current.restoreCard();
 	// };
 	useEffect(() => {
-		(async () => {
+		if(likeHistory?.length > 1){(async () => {
 			await updateRecommendations();
-		})();
+		})();}
 	}, [likeHistory]);
 	return (
 		<div>

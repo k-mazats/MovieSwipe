@@ -9,6 +9,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Nav from './components/Nav';
 import { readUser, createUser } from './services/firestore';
 
+
+
 import './App.css';
 
 function App() {
@@ -29,7 +31,7 @@ function App() {
 
 	return (
 		<Router>
-			<div className="app uk-background-secondary uk-light uk-width-1-1 uk-height-1-1">
+			<div className="App uk-background-secondary uk-light uk-width-1-1 uk-height-1-1">
 				<div className=" uk-width-1-1 uk-height-1-1">
 					<Routes>
 						<Route exact path="/lists" element={<ProtectedRoute />}>
