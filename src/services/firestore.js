@@ -3,7 +3,6 @@ import { app } from './firebase';
 // Initialize Cloud Firestore and get a reference to the service
 const firestore = getFirestore(app);
 export const createUser = async (uid) => {
-	console.log(uid);
 	try {
 		const userFile = await setDoc(
 			doc(firestore, 'users', uid),

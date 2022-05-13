@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { getMovies } from '../../services/apis';
-const SearchMovie = () => {
+const SearchMovie = (props) => {
+	const { setMovies, setLikeHistory } = props;
+
 	const [movieSearch, setMovieSearch] = useState('');
-  const shuffle = (array) => {
+	const shuffle = (array) => {
 		let currentIndex = array.length,
 			randomIndex;
 
@@ -24,11 +26,12 @@ const SearchMovie = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		(async () => {
-			const res = await getMovies(`movie:${movieSearch}`);
-			console.log(shuffle(res.data.Similar.Results));
+			const res = await getMovies(`movie:${movieSearch}`, 50);
+			setLikeHistory([`movie:${movieSearch}`])
+			setMovies([...shuffle(res.data.Similar.Results).slice(0,5)]);
 		})();
 	};
-	
+
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className="uk-inline">

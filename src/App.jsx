@@ -14,6 +14,7 @@ import './App.css';
 function App() {
 	const { currentUser } = useContext(AuthContext);
 	const [userProfil, setUserProfil] = useState();
+
 	useEffect(() => {
 		if (currentUser) {
 			(async () => {
