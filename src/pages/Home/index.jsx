@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getMovieDetails } from '../../services/apis';
-import Nav from '../../components/Nav';
+
 import SearchMovie from '../../components/SearchMovie';
 import Swiper from '../../components/Swiper/Swiper';
 import logo from '../../logo.svg';
@@ -8,6 +8,11 @@ const Home = () => {
 	const [moviesRecommendations, setMoviesRecommendations] = useState();
 	const [fullMoviesList, setFullMoviesList] = useState([]);
 	const [likeHistory, setLikeHistory] = useState([]);
+	const reset = () => {
+		setLikeHistory([])
+		setMoviesRecommendations()
+		setFullMoviesList([])
+	}
 	useEffect(() => {
 		if (moviesRecommendations && moviesRecommendations?.length > 2) {
 			(async () => {
@@ -40,6 +45,7 @@ const Home = () => {
 						setFullMoviesList={setFullMoviesList}
 						likeHistory={likeHistory}
 						setLikeHistory={setLikeHistory}
+						reset={reset}
 					></Swiper>
 				</>
 			)}

@@ -15,14 +15,9 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
 }
-.uk-icon-button svg {
-	color: black;
-}
-.uk-navbar {
-	height: 50px;
-}
+
 .layout {
-	height: calc(100% - 50px);
+	height: 100vh;
 }
 .swipe {
 	position: absolute;
@@ -84,4 +79,10 @@ code {
 	color: #fff;
 	animation-name: popup;
 	animation-duration: 800ms;
+}
+.open-modal{
+    position: absolute;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
 }
