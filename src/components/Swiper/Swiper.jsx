@@ -1,7 +1,12 @@
+
 import { useState, useMemo, useRef, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
+import Modal from 'react-modal';
 import { getMovies } from '../../services/apis';
+Modal.setAppElement('#root');
+
 const Swiper = (props) => {
+	const [modalIsOpen, setIsOpen] = useState(false);
 	const {
 		fullMoviesList,
 		likeHistory,
@@ -22,7 +27,12 @@ const Swiper = (props) => {
 				.map((i) => React.createRef()),
 		[]
 	);
-
+	const openModal = () => {
+		setIsOpen(true);
+	};
+	const closeModal = () => {
+		setIsOpen(false);
+	};
 	const updateCurrentIndex = (val) => {
 		setCurrentIndex(val);
 		currentIndexRef.current = val;
@@ -77,7 +87,7 @@ const Swiper = (props) => {
 		} else if (direction === 'down') {
 			reset();
 		} else if (direction === 'up') {
-			return;
+			openModal();
 		}
 	};
 
@@ -115,6 +125,53 @@ const Swiper = (props) => {
 	}, [likeHistory]);
 	return (
 		<div>
+			<Modal
+				isOpen={modalIsOpen}
+				onRequestClose={closeModal}
+				contentLabel="Movie details"
+				className="movie-modal"
+				overlayClassName="movie-modal-overlay"
+			>
+				<div className="uk-background-secondary uk-width-1-1 uk-height-1-1">
+					<div className="uk-background-secondary uk-width-1-1 uk-height-1-1">
+						<button
+							onClick={closeModal}
+							className="uk-icon-button movie-modal-close uk-background-secondary uk-position-small uk-position-top-right"
+							uk-icon="close"
+							type="button"
+						></button>
+						<div className="uk-width-1-1 uk-background-secondary">
+							<div className="uk-width-1-1 uk-height-small uk-cover-container">
+								<img
+									src={fullMoviesList[1]?.Poster}
+									alt=""
+									uk-cover="true"
+									className="uk-width-1-1"
+								/>
+								<div className="uk-overlay uk-overlay-primary uk-position-bottom">
+									<h2>{fullMoviesList[1]?.Title}</h2>
+								</div>
+							</div>
+							<dl className="uk-description-list uk-padding-small uk-text-small uk-margin-remove uk-padding-small uk-light">
+								<dt className="uk-text-secondary">Plot :</dt>
+								<dd>{fullMoviesList[1]?.Plot}</dd>
+								<dt className="uk-text-secondary">Directed by :</dt>
+								<dd>{fullMoviesList[1]?.Director}</dd>
+								<dt className="uk-text-secondary">Actors :</dt>
+								<dd>{fullMoviesList[1]?.Actors}</dd>
+								<dt className="uk-text-secondary">Written by :</dt>
+								<dd>{fullMoviesList[1]?.Writer}</dd>
+								<dt className="uk-text-secondary">Genre :</dt>
+								<dd>{fullMoviesList[1]?.Genre}</dd>
+								<dt className="uk-text-secondary">Runtime :</dt>
+								<dd>{fullMoviesList[1]?.Runtime}</dd>
+								<dt className="uk-text-secondary">Rating IMDB :</dt>
+								<dd>{fullMoviesList[1]?.imdbRating}</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</Modal>
 			<div className="cardContainer">
 				{fullMoviesList.map((movie, index) => {
 					return (
@@ -136,54 +193,6 @@ const Swiper = (props) => {
 						</TinderCard>
 					);
 				})}
-			</div>
-			<a
-				uk-toggle="target: #modal"
-				className="uk-icon-button open-modal"
-				uk-icon="file-text"
-				href=""
-			></a>
-			<div
-				className="uk-modal-full uk-background-secondary uk-width-1-1 uk-height-1-1"
-				id="modal"
-				uk-modal="true"
-			>
-				<div className="uk-modal-dialog">
-					<a
-						className="uk-modal-close-default uk-close uk-icon-button uk-position-small uk-position-top-right"
-						href=""
-						uk-close="true"
-					></a>
-					<div className="uk-width-1-1 uk-background-secondary">
-						<div className="uk-width-1-1 uk-height-small uk-cover-container">
-							<img
-								src={fullMoviesList[1]?.Poster}
-								alt=""
-								uk-cover
-								className="uk-width-1-1"
-							/>
-							<div class="uk-overlay uk-overlay-primary uk-position-bottom">
-								<h2>{fullMoviesList[1]?.Title}</h2>
-							</div>
-						</div>
-						<dl class="uk-description-list uk-padding-small uk-text-small uk-margin-remove uk-padding-small">
-							<dt className="uk-text-secondary">Plot :</dt>
-							<dd>{fullMoviesList[1]?.Plot}</dd>
-							<dt className="uk-text-secondary">Directed by :</dt>
-							<dd>{fullMoviesList[1]?.Director}</dd>
-							<dt className="uk-text-secondary">Actors :</dt>
-							<dd>{fullMoviesList[1]?.Actors}</dd>
-							<dt className="uk-text-secondary">Written by :</dt>
-							<dd>{fullMoviesList[1]?.Writer}</dd>
-							<dt className="uk-text-secondary">Genre :</dt>
-							<dd>{fullMoviesList[1]?.Genre}</dd>
-							<dt className="uk-text-secondary">Runtime :</dt>
-							<dd>{fullMoviesList[1]?.Runtime}</dd>
-							<dt className="uk-text-secondary">Rating IMDB :</dt>
-							<dd>{fullMoviesList[1]?.imdbRating}</dd>
-						</dl>
-					</div>
-				</div>
 			</div>
 		</div>
 	);

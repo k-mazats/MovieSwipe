@@ -23,12 +23,11 @@ code {
 	position: absolute;
 	width: 90vw;
 	height: calc(100vh - 50px - 8rem);
-	z-index: 999;
 }
 
 .cardContainer {
 	width: 90vw;
-	
+
 	height: calc(100vh - 50px - 8rem);
 }
 
@@ -41,10 +40,10 @@ code {
 	border-radius: 20px;
 	background-size: cover;
 	background-position: center;
-  width: 100%;
+	width: 100%;
 	height: 100%;
 }
-.card:not(:last-of-type){
+.card:not(:last-of-type) {
 	box-shadow: none;
 }
 
@@ -80,9 +79,27 @@ code {
 	animation-name: popup;
 	animation-duration: 800ms;
 }
-.open-modal{
-    position: absolute;
-    left: 50%;
-    bottom: 2rem;
-    transform: translateX(-50%);
+.movie-modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	right: auto;
+	bottom: auto;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	padding: 0;
+	height: 100%;
+	border: none;
+	border-radius: 0;
+	background-color: #222;
+	overflow: auto;
+}
+.movie-modal-overlay {
+	position: fixed;
+    inset: 0px;
+}
+
+.movie-modal-close {
+	z-index: 999;
 }

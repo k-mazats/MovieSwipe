@@ -3,23 +3,22 @@ import { getMovieDetails } from '../../services/apis';
 
 import SearchMovie from '../../components/SearchMovie';
 import Swiper from '../../components/Swiper/Swiper';
-import logo from '../../logo.svg';
 const Home = () => {
 	const [moviesRecommendations, setMoviesRecommendations] = useState();
 	const [fullMoviesList, setFullMoviesList] = useState([]);
 	const [likeHistory, setLikeHistory] = useState([]);
 	const reset = () => {
-		setLikeHistory([])
-		setMoviesRecommendations()
-		setFullMoviesList([])
-	}
+		setLikeHistory([]);
+		setMoviesRecommendations();
+		setFullMoviesList([]);
+	};
 	useEffect(() => {
 		if (moviesRecommendations && moviesRecommendations?.length > 2) {
 			(async () => {
-				console.log('ok')
+				console.log('ok');
 				const res = await getMovieDetails(moviesRecommendations[0].Name);
-				
-				setFullMoviesList([res.data,...fullMoviesList]);
+
+				setFullMoviesList([res.data, ...fullMoviesList]);
 			})();
 		} else if (moviesRecommendations && moviesRecommendations?.length === 2) {
 			moviesRecommendations.forEach(async (movie) => {
@@ -36,18 +35,15 @@ const Home = () => {
 					setLikeHistory={setLikeHistory}
 				></SearchMovie>
 			) : (
-				<>
-					<img src={logo} className="App-logo" alt="logo" />
-					<Swiper
-						setMovies={setMoviesRecommendations}
-						moviesRecommendations={moviesRecommendations}
-						fullMoviesList={fullMoviesList}
-						setFullMoviesList={setFullMoviesList}
-						likeHistory={likeHistory}
-						setLikeHistory={setLikeHistory}
-						reset={reset}
-					></Swiper>
-				</>
+				<Swiper
+					setMovies={setMoviesRecommendations}
+					moviesRecommendations={moviesRecommendations}
+					fullMoviesList={fullMoviesList}
+					setFullMoviesList={setFullMoviesList}
+					likeHistory={likeHistory}
+					setLikeHistory={setLikeHistory}
+					reset={reset}
+				></Swiper>
 			)}
 		</div>
 	);
