@@ -7,6 +7,7 @@ const Home = () => {
 	const [moviesRecommendations, setMoviesRecommendations] = useState();
 	const [fullMoviesList, setFullMoviesList] = useState([]);
 	const [likeHistory, setLikeHistory] = useState([]);
+	const [canSwipe, setCanSwipe] = useState(true);
 	const reset = () => {
 		setLikeHistory([]);
 		setMoviesRecommendations();
@@ -15,7 +16,6 @@ const Home = () => {
 	useEffect(() => {
 		if (moviesRecommendations && moviesRecommendations?.length > 2) {
 			(async () => {
-				console.log('ok');
 				const res = await getMovieDetails(moviesRecommendations[0].Name);
 
 				setFullMoviesList([res.data, ...fullMoviesList]);
@@ -27,6 +27,9 @@ const Home = () => {
 			});
 		}
 	}, [moviesRecommendations]);
+	useEffect(() => {
+		setCanSwipe(true)
+	},[fullMoviesList])
 	return (
 		<div className="layout uk-flex uk-width-1-1 uk-flex-center uk-flex-middle">
 			{!moviesRecommendations ? (
@@ -43,6 +46,8 @@ const Home = () => {
 					likeHistory={likeHistory}
 					setLikeHistory={setLikeHistory}
 					reset={reset}
+					canSwipe={canSwipe}
+					setCanSwipe={setCanSwipe}
 				></Swiper>
 			)}
 		</div>
